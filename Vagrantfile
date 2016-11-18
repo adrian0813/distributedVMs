@@ -12,6 +12,7 @@ Vagrant.configure("2") do |config|
     web.vm.network "private_network", ip: "192.168.11.11"
 
     web.vm.provision "shell", path: "provision-tomcat.sh"
+    web.vm.hostname = "tomcat8"
 
     web.vm.provider "virtualbox" do |vb|
       vb.memory = "1024"
@@ -21,11 +22,18 @@ Vagrant.configure("2") do |config|
   config.vm.define "db" do |db|
     db.vm.network "forwarded_port", guest: 5432, host:4396
     db.vm.network "private_network", ip: "192.168.11.12"
+    db.vm.hostname = "db"
   end    
 
   config.vm.define "python27" do |python27|
     python27.vm.network "private_network", ip: "192.168.11.13"
+    python27.vm.hostname = "python27"
 #    python27.vm.provision "shell", inline: "sudo apt-get install python -y"
   end
-
+  
+  config.vm.define "salt" do |salt|
+    salt.vm.network "private_network", ip: "192.168.11.14"
+    salt.vm.hostname = "salt"
+  end  
+  
 end
